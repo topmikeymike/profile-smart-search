@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Smart Search</title>
+</head>
+<body>
+    <h1>Profile Smart Search</h1>
+    <form id="searchForm">
+        <label for="idInput">Enter ID: </label>
+        <input type="text" id="idInput" name="id" required>
+        <button type="submit">Search</button>
+    </form>
+    <div id="searchResult"></div>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('idInput').value;
+            const response = await fetch(`/search?id=${id}`);
+            const data = await response.json();
+            const searchResult = document.getElementById('searchResult');
+
+            if (response.status === 200) {
+                searchResult.innerHTML = `<p>Name: ${data.name}</p><p>Address: ${data.address}</p>`;
+            } else {
+                searchResult.innerHTML = `<p>${data.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
